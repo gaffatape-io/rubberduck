@@ -9,23 +9,19 @@ import (
 	"testing"
 
 	"github.com/gaffatape-io/rubberduck/header"
+	rubberducktesting "github.com/gaffatape-io/rubberduck/testing"
 )
 
 // TODO(dape): add smaller tests and refactor all to use some shared functions.
 
 func newRubberduck(t *testing.T, args []string, env []string) *exec.Cmd {
-	const bin = "rubberduck"
-	
-	// Check that the rubberduck binary is built, without it this test will fail.
-	if _, err := os.Stat(bin); err != nil {
-		t.Fatal("rubberduck not built; run > go build .")
-	}
+	bin := rubberducktesting.FindBinary(t)
 
 	if args == nil {
 		args = []string{}
 	}
 	
-	cmd := exec.Command("./" + bin, args...)
+	cmd := exec.Command(bin, args...)
 	cmd.Env = env
 	return cmd
 }
